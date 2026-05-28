@@ -14,7 +14,9 @@
     "npm:pi-autoresearch",
     "npm:pi-fff",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-chrome"
+    "npm:pi-chrome",
+    "npm:pi-context-cap",
+    "npm:@firstpick/pi-extension-stats"
   ],
   "enabledModels": [
     "anthropic/claude-opus-4-7"
@@ -22,28 +24,36 @@
   "subagents": {
     "agentOverrides": {
       "scout": {
-        "inheritSkills": true
+        "inheritSkills": true,
+        "thinking": "medium"
       },
       "planner": {
-        "inheritSkills": true
+        "inheritSkills": true,
+        "thinking": "high"
       },
       "worker": {
-        "inheritSkills": true
+        "inheritSkills": true,
+        "thinking": "high"
       },
       "reviewer": {
-        "inheritSkills": true
+        "inheritSkills": true,
+        "thinking": "high"
       },
       "context-builder": {
-        "inheritSkills": true
+        "inheritSkills": true,
+        "thinking": "medium"
       },
       "researcher": {
-        "inheritSkills": true
+        "inheritSkills": true,
+        "thinking": "medium"
       },
       "delegate": {
-        "inheritSkills": true
+        "inheritSkills": true,
+        "thinking": "medium"
       },
       "oracle": {
-        "inheritSkills": true
+        "inheritSkills": true,
+        "thinking": "xhigh"
       }
     }
   }
