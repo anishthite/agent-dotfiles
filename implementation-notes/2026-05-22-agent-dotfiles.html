@@ -24,7 +24,7 @@
 
 <h1>agent-dotfiles — initial scaffold</h1>
 <p class="meta">
-  Started: 2026-05-22 · Workspace: <code>~/workspace/agent-dotfiles</code> · Status: scaffolded, awaiting user decisions before first sync + push.
+  Started: 2026-05-22 · Workspace: <code>~/workspace/agent-dotfiles</code> · Status: <span class="tag tag-done">shipped</span> · Repo: <a href="https://github.com/anishthite/agent-dotfiles">anishthite/agent-dotfiles</a> (private) · Initial commit: <code>7067b3e</code> · 82 files · 1.1 MB working tree.
 </p>
 
 <h2>Goal</h2>
@@ -78,24 +78,24 @@
   </tbody>
 </table>
 
-<h2>Open questions (blocking before first push)</h2>
+<h2>Resolved questions</h2>
 <table>
-  <thead><tr><th>ID</th><th>Question</th><th>Default if no answer</th></tr></thead>
+  <thead><tr><th>ID</th><th>Question</th><th>Resolution</th></tr></thead>
   <tbody>
     <tr>
-      <td class="id">Q-1 <span class="tag tag-block">block</span></td>
-      <td>Repo name? Suggested: <code>agent-dotfiles</code>.</td>
-      <td><code>agent-dotfiles</code></td>
+      <td class="id">Q-1 <span class="tag tag-done">done</span></td>
+      <td>Repo name?</td>
+      <td><code>agent-dotfiles</code> (user accepted default).</td>
     </tr>
     <tr>
-      <td class="id">Q-2 <span class="tag tag-block">block</span></td>
-      <td>GitHub visibility: public or private?</td>
-      <td><strong>private</strong> (safer given proximity to historic secret files; can open later).</td>
+      <td class="id">Q-2 <span class="tag tag-done">done</span></td>
+      <td>GitHub visibility?</td>
+      <td><strong>private</strong> (user accepted default). Live at <a href="https://github.com/anishthite/agent-dotfiles">anishthite/agent-dotfiles</a>.</td>
     </tr>
     <tr>
-      <td class="id">Q-3 <span class="tag tag-block">block</span></td>
-      <td><code>.codex/rules/default.rules</code> — leave gitignored, or sanitize and commit a scrubbed version?</td>
-      <td><strong>Leave gitignored.</strong> User to rotate leaked keys independently.</td>
+      <td class="id">Q-3 <span class="tag tag-done">done</span></td>
+      <td><code>.codex/rules/default.rules</code> handling?</td>
+      <td>Left gitignored. Defensive secret-scan added to push flow (regex match on Anthropic/PostHog/Google/GitHub/postgres/AWS patterns) — clean run pre-commit.</td>
     </tr>
   </tbody>
 </table>
