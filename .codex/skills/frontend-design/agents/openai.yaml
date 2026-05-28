@@ -1,0 +1,5 @@
+interface:
+  display_name: "Frontend Design"
+  short_description: "Bold, production-grade UI generation with real code."
+  brand_color: "#0AA1E5"
+  default_prompt: "Use $frontend-design to craft a distinctive, production-ready UI; give runnable code and explain the aesthetic."

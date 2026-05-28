@@ -1,0 +1,49 @@
+{
+  "lastChangelogVersion": "0.74.1",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "xhigh",
+  "enableInstallTelemetry": false,
+  "packages": [
+    "npm:context-mode",
+    "npm:pi-simplify",
+    "npm:pi-subagents",
+    "npm:pi-web-access",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:pi-context-prune",
+    "npm:pi-autoresearch",
+    "npm:pi-fff",
+    "npm:@juicesharp/rpiv-ask-user-question"
+  ],
+  "enabledModels": [
+    "anthropic/claude-opus-4-7"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "scout": {
+        "inheritSkills": true
+      },
+      "planner": {
+        "inheritSkills": true
+      },
+      "worker": {
+        "inheritSkills": true
+      },
+      "reviewer": {
+        "inheritSkills": true
+      },
+      "context-builder": {
+        "inheritSkills": true
+      },
+      "researcher": {
+        "inheritSkills": true
+      },
+      "delegate": {
+        "inheritSkills": true
+      },
+      "oracle": {
+        "inheritSkills": true
+      }
+    }
+  }
+}

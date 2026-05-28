@@ -1,0 +1,12 @@
+model = "gpt-5.4"
+model_reasoning_effort = "xhigh"
+
+[projects."/Users/anishthite"]
+trust_level = "trusted"
+
+[projects."/Users/anishthite/workspace/noted"]
+trust_level = "trusted"
+
+[mcp_servers.paper]
+enabled = true
+url = "http://127.0.0.1:29979/mcp"

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>agent-dotfiles — initial scaffold</title>
+<style>
+  body { font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; color: #1a1a1a; }
+  h1, h2 { font-family: ui-sans-serif, system-ui; }
+  h1 { font-size: 1.5rem; margin: 0 0 0.25rem; }
+  h2 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; border-bottom: 1px solid #ddd; padding-bottom: 0.25rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0.5rem 0 1rem; }
+  th, td { text-align: left; vertical-align: top; padding: 0.4rem 0.6rem; border-bottom: 1px solid #eee; }
+  th { background: #fafafa; font-weight: 600; }
+  td.id { font-weight: 600; white-space: nowrap; color: #555; }
+  .meta { color: #666; font-size: 12px; margin-bottom: 1rem; }
+  code { background: #f3f3f3; padding: 0.05rem 0.3rem; border-radius: 3px; }
+  .tag { display: inline-block; padding: 0.05rem 0.4rem; border-radius: 3px; font-size: 11px; font-weight: 600; }
+  .tag-open   { background: #fff3cd; color: #7a5800; }
+  .tag-done   { background: #d4edda; color: #155724; }
+  .tag-block  { background: #f8d7da; color: #721c24; }
+</style>
+</head>
+<body>
+
+<h1>agent-dotfiles — initial scaffold</h1>
+<p class="meta">
+  Started: 2026-05-22 · Workspace: <code>~/workspace/agent-dotfiles</code> · Status: scaffolded, awaiting user decisions before first sync + push.
+</p>
+
+<h2>Goal</h2>
+<p>
+  Single git repo that mirrors the user's per-agent dotdirs
+  (<code>~/.agents/</code>, <code>~/.claude/</code>, <code>~/.codex/</code>,
+  <code>~/.pi/</code>, <code>~/.gemini/</code>), tracks all authored skills
+  and settings, excludes sessions/auth/caches, and can be cloned + bootstrapped
+  on a fresh machine.
+</p>
+
+<h2>Decisions</h2>
+<table>
+  <thead><tr><th>ID</th><th>Decision</th><th>Rationale</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="id">D-1</td>
+      <td>Mirror per-vendor dir structure inside repo (literal <code>.agents/</code>, <code>.claude/</code>, …).</td>
+      <td>User asked for this explicitly. Matches mental model. Bootstrap is a straight reverse-rsync.</td>
+    </tr>
+    <tr>
+      <td class="id">D-2</td>
+      <td>Use <code>rsync</code> for both directions, gated by <code>.gitignore</code> via <code>--filter=':- .gitignore'</code>.</td>
+      <td>No new tool to install (rsync ubiquitous). Self-documenting via gitignore. Simpler than chezmoi/stow for a single-user, mirror-style repo.</td>
+    </tr>
+    <tr>
+      <td class="id">D-3</td>
+      <td>Preserve symlinks as-is in repo (rsync <code>-a</code> default), do <em>not</em> follow them.</td>
+      <td>Repo content stays small; symlink targets reproduce the canonical-plus-fanout pattern when bootstrapped. Bootstrap also <em>recreates</em> symlinks fresh after rsync as a safety net.</td>
+    </tr>
+    <tr>
+      <td class="id">D-4</td>
+      <td>Gitignore <code>.codex/rules/default.rules</code> by default.</td>
+      <td>File contains historical "always allow" command rules with plaintext API keys (Anthropic, PostHog, Google Maps, Supabase DB URL). Even private repos shouldn't carry these. User must sanitize + rotate before opting in.</td>
+    </tr>
+    <tr>
+      <td class="id">D-5</td>
+      <td>Gitignore <code>.claude/settings.local.json</code> by default.</td>
+      <td>Convention: <code>*.local.*</code> files are machine-local overrides. User can comment out the rule if they want to track.</td>
+    </tr>
+    <tr>
+      <td class="id">D-6</td>
+      <td>Bootstrap defaults to dry-run; requires <code>--apply</code> to write.</td>
+      <td>Restoring config into <code>$HOME</code> is high-blast-radius. Force the user to see diff first.</td>
+    </tr>
+    <tr>
+      <td class="id">D-7</td>
+      <td>Repo dir: <code>~/workspace/agent-dotfiles</code> (working assumption).</td>
+      <td>Matches existing <code>~/workspace/</code> convention. User can rename.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Open questions (blocking before first push)</h2>
+<table>
+  <thead><tr><th>ID</th><th>Question</th><th>Default if no answer</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="id">Q-1 <span class="tag tag-block">block</span></td>
+      <td>Repo name? Suggested: <code>agent-dotfiles</code>.</td>
+      <td><code>agent-dotfiles</code></td>
+    </tr>
+    <tr>
+      <td class="id">Q-2 <span class="tag tag-block">block</span></td>
+      <td>GitHub visibility: public or private?</td>
+      <td><strong>private</strong> (safer given proximity to historic secret files; can open later).</td>
+    </tr>
+    <tr>
+      <td class="id">Q-3 <span class="tag tag-block">block</span></td>
+      <td><code>.codex/rules/default.rules</code> — leave gitignored, or sanitize and commit a scrubbed version?</td>
+      <td><strong>Leave gitignored.</strong> User to rotate leaked keys independently.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Tradeoffs</h2>
+<table>
+  <thead><tr><th>ID</th><th>Tradeoff</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="id">T-1</td>
+      <td>
+        Mirror-style repo (D-1) makes <code>git diff</code> readable but couples repo layout to current vendor dirs.
+        If pi/Codex moves their config home, sync.sh needs an edit. Acceptable: vendor home dirs are slow-moving.
+      </td>
+    </tr>
+    <tr>
+      <td class="id">T-2</td>
+      <td>
+        Preserving symlinks (D-3) keeps repo small but absolute-path symlinks
+        (e.g. <code>~/.pi/agent/skills/excalidraw-diagram → /Users/anishthite/.agents/skills/excalidraw-diagram</code>)
+        break on different <code>$HOME</code>. Mitigation: bootstrap step 2 recreates all skill symlinks fresh
+        from <code>~/.agents/skills/</code> with computed relative paths, regardless of what was stored.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Assumptions</h2>
+<table>
+  <thead><tr><th>ID</th><th>Assumption</th></tr></thead>
+  <tbody>
+    <tr><td class="id">A-1</td><td>Single user (this machine). Cross-user portability is a non-goal for v1.</td></tr>
+    <tr><td class="id">A-2</td><td><code>rsync</code> is installed (default on macOS).</td></tr>
+    <tr><td class="id">A-3</td><td><code>gh</code> CLI is installed and authenticated. Confirmed: yes (<code>anishthite</code>, SSH protocol).</td></tr>
+    <tr><td class="id">A-4</td><td>Existing canonical-plus-symlink pattern (<code>~/.agents/skills/</code> + vendor symlinks) is correct and intended to stay.</td></tr>
+  </tbody>
+</table>
+
+<h2>Reversibility</h2>
+<table>
+  <thead><tr><th>ID</th><th>Note</th></tr></thead>
+  <tbody>
+    <tr><td class="id">R-1</td><td>Repo creation is fully reversible (delete <code>~/workspace/agent-dotfiles</code>).</td></tr>
+    <tr><td class="id">R-2</td><td><code>sync.sh</code> only writes inside the repo, never touches <code>$HOME</code>.</td></tr>
+    <tr><td class="id">R-3</td><td><code>bootstrap.sh --apply</code> writes into <code>$HOME</code>. Mitigation: rsync uses <code>--no-perms</code> and never <code>--delete</code> (so existing files outside the repo's scope are not removed). Dry-run is default.</td></tr>
+    <tr><td class="id">R-4</td><td>GitHub push is reversible (<code>gh repo delete</code>); not so for secrets if visibility was wrong on push. Hence Q-2/Q-3 are blocking.</td></tr>
+  </tbody>
+</table>
+
+<h2>Followups</h2>
+<table>
+  <thead><tr><th>ID</th><th>Followup</th><th>State</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="id">L-1</td>
+      <td>Move canonical <code>AGENTS.md</code> from <code>~/.pi/agent/AGENTS.md</code> to <code>~/.agents/AGENTS.md</code> (discussed in chat, not yet done). Re-point all symlinks.</td>
+      <td><span class="tag tag-open">open</span></td>
+    </tr>
+    <tr>
+      <td class="id">L-2</td>
+      <td>Reconcile orphan skills not in canonical: <code>~/.claude/skills/smart-goal/</code>, <code>~/.codex/skills/frontend-design/</code>, <code>~/.codex/skills/playwright-interactive/</code> (duplicate of the new OpenAI one).</td>
+      <td><span class="tag tag-open">open</span></td>
+    </tr>
+    <tr>
+      <td class="id">L-3</td>
+      <td>Sanitize and (optionally) commit a scrubbed <code>.codex/rules/default.rules</code> with API-key strings replaced by placeholders.</td>
+      <td><span class="tag tag-open">open</span></td>
+    </tr>
+    <tr>
+      <td class="id">L-4</td>
+      <td>Rewrite absolute-path symlinks in <code>~/.pi/agent/skills/</code> to relative form (currently mix of relative + absolute).</td>
+      <td><span class="tag tag-open">open</span></td>
+    </tr>
+    <tr>
+      <td class="id">L-5</td>
+      <td>Rotate leaked API keys found in <code>~/.codex/rules/default.rules</code>: Anthropic, PostHog, Google Maps, Supabase pooler URL+password.</td>
+      <td><span class="tag tag-block">urgent</span></td>
+    </tr>
+    <tr>
+      <td class="id">L-6</td>
+      <td>Add a <code>Brewfile</code> / package-list manifest so a fresh machine bootstrap also reinstalls the binaries (gh, rsync, python3 for relpath, etc.).</td>
+      <td><span class="tag tag-open">open</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Deviations</h2>
+<p>(none yet)</p>
+
+</body>
+</html>

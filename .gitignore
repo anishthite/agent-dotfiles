@@ -1,0 +1,92 @@
+# ============================================================================
+# agent-dotfiles .gitignore
+# Strict by default — only authored config and skills should be tracked.
+# Anything that looks like sessions, caches, auth, telemetry, or per-machine
+# state is excluded.
+# ============================================================================
+
+# --- Sessions / chat history / project state (never track) ---
+**/sessions/
+**/archived_sessions/
+**/projects/
+**/worktrees/
+**/file-history/
+**/paste-cache/
+**/session-env/
+**/shell-snapshots/
+**/shell_snapshots/
+**/history.jsonl
+**/run-history.jsonl
+**/session_index*.jsonl
+
+# --- Auth & secrets (never track) ---
+**/auth.json
+**/.env
+**/.env.*
+!**/.env.example
+**/mcp-oauth/
+**/mcp-cache.json
+**/mcp-npx-cache.json
+**/mcp-onboarding.json
+**/mcp-needs-auth-cache.json
+**/policy-limits.json
+**/stats-cache.json
+**/.codex-global-state.json
+
+# --- Codex command-allow rules: contains historical API keys ---
+# Sanitize and remove this line before opting back in.
+.codex/rules/default.rules
+
+# --- Claude settings.local.json: machine-local overrides ---
+# Comment out the next line if you want to track yours.
+.claude/settings.local.json
+
+# --- Per-machine caches / state ---
+**/cache/
+**/backups/
+**/debug/
+**/telemetry/
+**/tmp/
+**/.tmp/
+**/log/
+**/logs/
+**/ide/
+**/tasks/
+**/memories/
+**/vendor_imports/
+**/context-mode/
+**/plugins/cache/
+**/plugins/marketplaces/
+**/plugins/install-counts-cache.json
+**/plugins/known_marketplaces.json
+**/antigravity/
+**/antigravity-browser-profile/
+**/.last-cleanup
+**/.personality_migration
+**/models_cache.json
+
+# --- Skill internals ---
+.claude/skills/.system/
+.codex/skills/.system/
+**/.skill-lock.json
+**/skills/**/node_modules/
+**/skills/**/.venv/
+**/skills/**/__pycache__/
+
+# --- Databases / WAL / misc state ---
+**/*.sqlite
+**/*.sqlite-shm
+**/*.sqlite-wal
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/*.log
+**/state_*.sqlite
+
+# --- Vendored binaries ---
+.pi/agent/bin/
+
+# --- OS noise ---
+.DS_Store
+Thumbs.db
+._*

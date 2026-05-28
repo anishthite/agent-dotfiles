@@ -1,0 +1,1 @@
+/Users/anishthite/.pi/agent/AGENTS.md

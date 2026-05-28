@@ -1,0 +1,89 @@
+# rsync exclude patterns (used by sync.sh and bootstrap.sh)
+# Mirrors .gitignore intent but uses rsync-native syntax that actually fires
+# regardless of where the source root is.
+
+# ---- Sessions / history (never copy) ----
+sessions/
+archived_sessions/
+projects/
+worktrees/
+file-history/
+paste-cache/
+session-env/
+shell-snapshots/
+shell_snapshots/
+history.jsonl
+run-history.jsonl
+session_index*.jsonl
+
+# ---- Auth & secrets (never copy) ----
+auth.json
+.env
+.env.*
+mcp-oauth/
+mcp-cache.json
+mcp-npx-cache.json
+mcp-onboarding.json
+mcp-needs-auth-cache.json
+policy-limits.json
+stats-cache.json
+.codex-global-state.json
+
+# ---- Codex command-allow file: contains historic API keys ----
+default.rules
+
+# ---- Machine-local Claude overrides ----
+settings.local.json
+
+# ---- Caches / state / telemetry ----
+cache/
+backups/
+debug/
+telemetry/
+tmp/
+.tmp/
+log/
+logs/
+ide/
+tasks/
+memories/
+vendor_imports/
+context-mode/
+plugins/cache/
+plugins/marketplaces/
+install-counts-cache.json
+known_marketplaces.json
+antigravity/
+antigravity-browser-profile/
+.last-cleanup
+.personality_migration
+models_cache.json
+
+# ---- Skill internals ----
+.system/
+.skill-lock.json
+node_modules/
+.venv/
+__pycache__/
+
+# ---- Nested git repos (track content, not history) ----
+.git/
+
+# ---- Databases / WAL ----
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.db-shm
+*.db-wal
+*.log
+state_*.sqlite
+logs_*.sqlite*
+
+# ---- Vendored binaries (pi/agent/bin/fd etc.) ----
+agent/bin/
+
+# ---- OS noise ----
+.DS_Store
+Thumbs.db
+._*

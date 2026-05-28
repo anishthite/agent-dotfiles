@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spec — TASK_SLUG</title>
+<meta name="task" content="ONE_LINE_TASK_DESCRIPTION">
+<meta name="date-started" content="YYYY-MM-DD">
+<meta name="date-updated" content="YYYY-MM-DD">
+<meta name="status" content="planning"><!-- planning | in-progress | ready-for-review | shipped | superseded -->
+<meta name="blast-radius" content="low"><!-- low | medium | high -->
+<meta name="tags" content="subsystem1,subsystem2">
+<meta name="related" content=""><!-- comma-separated filenames of related notes -->
+<style>
+  body { font: 14px/1.45 -apple-system, system-ui, sans-serif; max-width: 880px; margin: 1.5rem auto; padding: 0 1rem; color: #111; }
+  h1 { font-size: 20px; margin: 0 0 .25rem; }
+  h2 { font-size: 15px; margin: 1.4rem 0 .4rem; border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+  h3 { font-size: 13px; margin: 1rem 0 .3rem; color: #444; text-transform: uppercase; letter-spacing: .04em; }
+  table { border-collapse: collapse; width: 100%; margin: .4rem 0 .8rem; }
+  th, td { border: 1px solid #ddd; padding: 4px 8px; text-align: left; vertical-align: top; }
+  th { background: #f6f6f6; font-weight: 600; }
+  code, pre { font-family: ui-monospace, Menlo, monospace; }
+  code { background: #f1f1f1; padding: 1px 4px; border-radius: 3px; font-size: 12.5px; }
+  pre { background: #f6f6f6; padding: .55rem .7rem; border-radius: 4px; overflow-x: auto; font-size: 12.5px; line-height: 1.4; }
+  ul, ol { margin: .3rem 0 .8rem 1.2rem; padding: 0; }
+  li { margin: .15rem 0; }
+  .q { border-left: 3px solid #b85c00; background: #fff8ee; padding: .4rem .7rem; margin: .4rem 0; }
+  .q .id { color: #b85c00; font-weight: 700; }
+  .q.resolved { border-left-color: #2a7a2a; background: #f1faf1; }
+  .q.resolved .id { color: #2a7a2a; }
+  .blast-low { color: #2a7a2a; } .blast-med { color: #b85c00; } .blast-high { color: #b00020; font-weight: 600; }
+  .meta { color: #555; font-size: 12.5px; margin-bottom: .8rem; }
+  .kv { display: grid; grid-template-columns: 140px 1fr; gap: 2px 14px; font-size: 13px; margin: .4rem 0 1rem; }
+  .kv b { color: #444; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!--
+DENSITY RULES (see ~/.agents/skills/implementation-notes/SKILL.md):
+- Tables over prose. One row, one sentence.
+- No <details>/<summary> collapses.
+- Drop empty sections (except Summary / Files / Reversibility / DoD).
+- No "Context: … Chose: … Why: …" labels. The column header is the category.
+- Imperative, present tense. `<code>` every path/identifier/formula.
+- No context recaps; no hedges; no marketing.
+-->
+
+<h1>TASK_TITLE</h1>
+<p class="meta">
+  <code>feat/BRANCH</code> · worktree <code>~/path/to/worktree</code> · YYYY-MM-DD · status <b>planning</b> · blast <span class="blast-low">low</span>
+</p>
+
+<h2>Summary</h2>
+<div class="kv">
+  <b>Goal</b><div>One sentence: what ships.</div>
+  <b>Source</b><div>Where the data / behavior comes from.</div>
+  <b>Surface</b><div>API route(s), page path(s), event name(s).</div>
+  <b>Schema</b><div>None / list new columns / list new tables.</div>
+  <b>Mobile</b><div>Untouched / list changes.</div>
+  <b>Open Qs</b><div>N (Q-001…Q-00N).</div>
+</div>
+
+<!-- Include only sections that carry information for this task. -->
+
+<h2>API contract</h2>
+<h3>Request</h3>
+<pre>METHOD /path
+  ?param=...                  // required|optional, type, semantics</pre>
+<h3>Response — <code>SchemaName</code></h3>
+<pre>{
+  field: type,
+  ...
+}</pre>
+<p>Notes on units, nullability, edge cases.</p>
+
+<h2>Algorithm</h2>
+<ol>
+  <li>Step.</li>
+  <li>Step with formula: <code>x = ceil(p · n) − 1</code>.</li>
+</ol>
+
+<h2>UI layout</h2>
+<ol>
+  <li><b>Component</b>: behavior, format rules.</li>
+</ol>
+
+<h2>Files</h2>
+<table>
+  <tr><th>Path</th><th>Kind</th><th>Delta</th></tr>
+  <tr><td><code>path/to/file.ts</code></td><td>new</td><td>One-line description.</td></tr>
+  <tr><td><code>path/to/other.ts</code></td><td>touch</td><td>One-line description.</td></tr>
+</table>
+
+<h2>Decisions</h2>
+<table>
+  <tr><th>ID</th><th>Choice · Rationale</th></tr>
+  <tr><td>D-001</td><td>Choice. One-clause reason.</td></tr>
+</table>
+
+<h2>Deviations</h2>
+<!-- Drop this section if none. Otherwise: -->
+<table>
+  <tr><th>ID</th><th>From spec · Did · Reason</th></tr>
+  <tr><td>X-001</td><td>Spec said X; did Y; because Z.</td></tr>
+</table>
+
+<h2>Tradeoffs</h2>
+<table>
+  <tr><th>ID</th><th>Picked over Rejected · Reason</th></tr>
+  <tr><td>T-001</td><td><code>A</code> over <code>B</code>. One-clause reason.</td></tr>
+</table>
+
+<h2>Open questions</h2>
+<div class="q"><span class="id">Q-001</span> · Topic. <b>Assumed: X.</b> Alternatives: A, B.</div>
+
+<!-- After resolution: -->
+<!-- <div class="q resolved"><span class="id">Q-001</span> · Topic. <b>RESOLVED YYYY-MM-DD: X.</b></div> -->
+
+<h2>Assumptions</h2>
+<ul>
+  <li>A-001 · Stated assumption. If wrong: impact.</li>
+</ul>
+
+<h2>Reversibility</h2>
+<p>R-001 · <span class="blast-low">low</span>. One-line revert path.</p>
+
+<h2>Followups</h2>
+<ul>
+  <li>L-001 · Deferred item, one line.</li>
+</ul>
+
+<h2>Definition of done</h2>
+<ul>
+  <li>Checklist item.</li>
+  <li>Tests / typecheck / lint clean.</li>
+  <li>Manual smoke: …</li>
+</ul>
+
+</body>
+</html>
