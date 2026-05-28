@@ -24,8 +24,6 @@ Gemini CLI — with shared canonical skills and instructions in `.agents/`.
 ./bootstrap.sh --apply     # repo → $HOME (write)
 ```
 
-Both are tiny `rsync` wrappers gated by `.gitignore` — no templating.
-
 ## New machine
 
 ```bash
@@ -39,10 +37,3 @@ Then manually:
 - Re-install Claude plugins from `.claude/plugins/installed_plugins.json`
   (`/plugins install ...`)
 - Re-install pi packages listed in `.pi/agent/settings.json:packages`
-
-## Not tracked
-
-See `.gitignore`. Notably excluded: sessions, chat logs, auth tokens,
-SQLite DBs, telemetry, `.claude/settings.local.json`, and
-`.codex/rules/default.rules` (contains historical API keys baked into
-command strings — sanitize and rotate before opting back in).
