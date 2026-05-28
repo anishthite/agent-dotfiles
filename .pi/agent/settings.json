@@ -2,7 +2,7 @@
   "lastChangelogVersion": "0.74.1",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
-  "defaultThinkingLevel": "xhigh",
+  "defaultThinkingLevel": "high",
   "enableInstallTelemetry": false,
   "packages": [
     "npm:context-mode",
@@ -13,7 +13,8 @@
     "npm:pi-context-prune",
     "npm:pi-autoresearch",
     "npm:pi-fff",
-    "npm:@juicesharp/rpiv-ask-user-question"
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-chrome"
   ],
   "enabledModels": [
     "anthropic/claude-opus-4-7"
